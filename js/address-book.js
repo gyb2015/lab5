@@ -33,4 +33,35 @@ function sortObjArray(objArray, propName) {
             return 1;
     });
 } //sortObjArray()
+$(function(){
+    $('.btn').click(function(){
+        var sortBtn = $(this);
+        var sortBy = sortBtn.attr('data-sortby');
+        sortObjArray(Employees.entries, sortBy);
+        render(Employees.entries);
+    }); 
+});
+function render(entries) {
+    var $template = $('.template');
+    var $addressBook = $('.address-book');
+    $addressBook.empty();
+    $.each(entries, function(index, value) {
+        var $instance = $template.clone();
+        $instance.find('.first').html(this.first);
+        $instance.find('.last').html(this.last);
+        $instance.find('.title').html(this.title);
+        $instance.find('.dept').html(this.dept);
+        $instance.find('.pic').attr({
+            src:this.pic,
+            alt:'picture of' + this.artist
+        });
+        $instance.removeClass('template');
+        $addressBook.append($instance);
 
+   });
+
+}
+
+$(document).ready(function() {
+    render(Employees.entries, $('name'), $('dept'));
+})
